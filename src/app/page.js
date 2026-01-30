@@ -86,7 +86,7 @@ const AuthScreen = ({ onJoin }) => {
         <div className="text-center mb-8">
           
           {/* --- LOGO GAMBAR SENDIRI (LOGIN) --- */}
-          <div className="w-24 h-24 flex items-center justify-center mx-auto mb-4 overflow-hidden p-1">
+          <div className="w-24 h-24 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#E4D5B7]/20 overflow-hidden p-1">
              {/* Menggunakan icon-192.png yang ada di folder public */}
              <img 
                src="/icon.png" 
@@ -108,7 +108,7 @@ const AuthScreen = ({ onJoin }) => {
                 value={name} 
                 onChange={(e) => setName(e.target.value)} 
                 className="w-full px-4 py-3 rounded-xl bg-[#06392f] border border-[#E4D5B7]/30 text-[#E8F1F0] focus:outline-none focus:border-[#E4D5B7]" 
-                placeholder="e.g. Sarah" 
+                placeholder="your name" 
                 required 
                 onInvalid={e => e.target.setCustomValidity('Please fill your name!')}
                 onInput={e => e.target.setCustomValidity('')}
@@ -122,7 +122,7 @@ const AuthScreen = ({ onJoin }) => {
                 value={group} 
                 onChange={(e) => setGroup(e.target.value)} 
                 className="w-full px-4 py-3 rounded-xl bg-[#06392f] border border-[#E4D5B7]/30 text-[#E8F1F0] focus:outline-none focus:border-[#E4D5B7]" 
-                placeholder="e.g. Family-Goals-2025" 
+                placeholder="your cool group name" 
                 required 
                 onInvalid={e => e.target.setCustomValidity('Hey! Your group name please!')}
                 onInput={e => e.target.setCustomValidity('')}
