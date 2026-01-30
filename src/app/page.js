@@ -43,7 +43,8 @@ import {
   RefreshCw, 
   Trash2, 
   Copy, 
-  Trophy 
+  Trophy,
+  Download 
 } 
 from 'lucide-react';
 
@@ -244,6 +245,28 @@ const TadarusGroup = ({ user, groupName }) => {
 
 export default function RamadanApp() {
   const [user, setUser] = useState(null); const [gn, setGn] = useState(null); const [tab, setTab] = useState('memos'); const [cp, setCp] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState(null); // STATE UNTUK PWA
+
+  // --- EFFECT: DETEKSI INSTALLABLE PWA ---
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault(); // Mencegah browser menampilkan pop-up default yg membingungkan
+      setInstallPrompt(e); // Simpan event-nya buat dipanggil nanti
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  // --- FUNGSI KLIK TOMBOL INSTALL ---
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+        setInstallPrompt(null); // Hilangkan tombol kalau user setuju
+    }
+  };
+
   useEffect(() => { if(auth) onAuthStateChanged(auth, u => { if (!u) signInAnonymously(auth).catch(e=>console.log('No DB yet')); }); }, []);
   const join = (n, g) => { 
     // Jika DB belum ada, kita kasih user "Palsu" dulu biar tampilan jalan
@@ -258,7 +281,24 @@ export default function RamadanApp() {
       <header className="fixed top-0 w-full z-50 bg-[#06392f]/90 backdrop-blur-md border-b border-[#E8F1F0]/5 px-4 py-4 grid grid-cols-3 items-center">
         <div className="flex items-center gap-2"><FileHeart className="text-[#E4D5B7]" size={24}/><h1 className="font-bold hidden sm:block">RAM</h1></div>
         <div className="flex flex-col items-center"><span className="text-[9px] text-[#E8F1F0]/40 uppercase tracking-widest mb-0.5">GROUP</span><button onClick={copy} className="flex items-center gap-1.5 bg-[#E8F1F0]/5 px-3 py-1.5 rounded-full border border-[#E4D5B7]/20 hover:bg-[#E4D5B7]/10 active:scale-95"><span className="text-xs font-bold text-[#E4D5B7] max-w-[100px] truncate">{gn}</span>{cp?<CheckCircle size={12} className="text-green-400"/>:<Copy size={12} className="text-[#E8F1F0]/60"/>}</button></div>
-        <div className="flex items-center gap-3 justify-end"><div className="w-8 h-8 rounded-full bg-[#E8F1F0]/10 flex items-center justify-center border border-[#E4D5B7]/30 text-[#E4D5B7] font-bold text-sm">{user.displayName.charAt(0)}</div></div>
+        {/* Profile & Install Button */}
+        <div className="flex items-center gap-2 justify-end">
+            
+            {/* --- TAMBAHAN 3: Tombol Install UI --- */}
+            {installPrompt && (
+                <button 
+                    onClick={handleInstallClick} 
+                    className="w-8 h-8 rounded-full bg-[#E4D5B7] flex items-center justify-center text-[#06392f] animate-bounce shadow-lg"
+                    title="Install App"
+                >
+                    <Download size={16} strokeWidth={3} />
+                </button>
+            )}
+            {/* ------------------------------------- */}
+
+            <div className="text-right hidden sm:block"><div className="text-xs text-[#E8F1F0]/50">Signed in as</div><div className="text-sm font-medium text-[#E4D5B7]">{user.displayName}</div></div>
+            <div className="w-8 h-8 rounded-full bg-[#E8F1F0]/10 flex items-center justify-center border border-[#D4AF37]/30 text-[#E4D5B7] font-bold text-sm">{user.displayName.charAt(0)}</div>
+        </div>
       </header>
       <main className="pt-20 min-h-screen">
         {tab==='memos'&&<MemoWall user={user} groupName={gn}/>}
