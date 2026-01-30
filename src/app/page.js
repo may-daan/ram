@@ -86,7 +86,7 @@ const AuthScreen = ({ onJoin }) => {
         <div className="text-center mb-8">
           
           {/* --- LOGO GAMBAR SENDIRI (LOGIN) --- */}
-          <div className="w-24 h-24 bg-[#E4D5B7] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#E4D5B7]/20 overflow-hidden p-1">
+          <div className="w-24 h-24 flex items-center justify-center mx-auto mb-4 overflow-hidden p-1">
              {/* Menggunakan icon-192.png yang ada di folder public */}
              <img 
                src="/icon.png" 
