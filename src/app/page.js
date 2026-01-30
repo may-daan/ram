@@ -91,7 +91,7 @@ const AuthScreen = ({ onJoin }) => {
              <img 
                src="/icon.png" 
                alt="RAM - Ramadhan Social" 
-               className="w-full h-full object-cover rounded-xl" 
+               className="w-full h-full" 
              />
           </div>
           {/* ----------------------------------- */}
