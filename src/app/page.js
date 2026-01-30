@@ -72,30 +72,66 @@ const AuthScreen = ({ onJoin }) => {
   const [name, setName] = useState('');
   const [group, setGroup] = useState('');
   const [loading, setLoading] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim() || !group.trim()) return;
     setLoading(true);
-    setTimeout(() => { 
-      onJoin(
-      name, 
-      group.toLowerCase().replace(/\s/g, '-')); 
-      setLoading(false); 
-    }, 800);
+    setTimeout(() => { onJoin(name, group.toLowerCase().replace(/\s/g, '-')); setLoading(false); }, 800);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#06392f] p-4 font-sans text-[#E8F1F0]">
       <div className="w-full max-w-md bg-[#094d40] p-8 rounded-2xl shadow-2xl border border-[#E4D5B7]/30">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#E4D5B7]/10"><FileHeart className="text-[#E4D5B7]" size={57} /></div>
+          
+          {/* --- LOGO GAMBAR SENDIRI (LOGIN) --- */}
+          <div className="w-24 h-24 bg-[#E4D5B7] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#E4D5B7]/20 overflow-hidden p-1">
+             {/* Menggunakan icon-192.png yang ada di folder public */}
+             <img 
+               src="/icon.png" 
+               alt="RAM - Ramadhan Social" 
+               className="w-full h-full object-cover rounded-xl" 
+             />
+          </div>
+          {/* ----------------------------------- */}
+
           <h1 className="text-3xl font-bold text-[#E4D5B7] mb-2">RAM</h1>
-          <p className="text-[#E8F1F0]/70">Connect, Read, and Reflect together.</p>
+          <p className="text-[#E8F1F0]/70">Connect, Read, and Reflect together</p>
         </div>
+        
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div><label className="block text-sm font-medium text-[#E4D5B7] mb-1">Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-3 rounded-xl bg-[#06392f] border border-[#E4D5B7]/30 text-[#E8F1F0] focus:outline-none focus:border-[#E4D5B7]" placeholder="e.g. Embun" required /></div>
-          <div><label className="block text-sm font-medium text-[#E4D5B7] mb-1">Your Group Name </label><input type="text" value={group} onChange={(e) => setGroup(e.target.value)} className="w-full px-4 py-3 rounded-xl bg-[#06392f] border border-[#E4D5B7]/30 text-[#E8F1F0] focus:outline-none focus:border-[#E4D5B7]" placeholder="e.g. Keren26" required /></div>
-          <button type="submit" disabled={loading} className="w-full py-4 bg-[#E4D5B7] hover:bg-[#c4a132] text-[#06392f] font-bold rounded-xl shadow-lg disabled:opacity-50">{loading ? 'Joining...' : 'Start Journey'}</button>
+          <div>
+            <label className="block text-sm font-medium text-[#E4D5B7] mb-1">Your Name</label>
+            <input 
+                type="text" 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                className="w-full px-4 py-3 rounded-xl bg-[#06392f] border border-[#E4D5B7]/30 text-[#E8F1F0] focus:outline-none focus:border-[#E4D5B7]" 
+                placeholder="e.g. Sarah" 
+                required 
+                onInvalid={e => e.target.setCustomValidity('Please fill your name!')}
+                onInput={e => e.target.setCustomValidity('')}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-[#E4D5B7] mb-1">Your Group Name</label>
+            <input 
+                type="text" 
+                value={group} 
+                onChange={(e) => setGroup(e.target.value)} 
+                className="w-full px-4 py-3 rounded-xl bg-[#06392f] border border-[#E4D5B7]/30 text-[#E8F1F0] focus:outline-none focus:border-[#E4D5B7]" 
+                placeholder="e.g. Family-Goals-2025" 
+                required 
+                onInvalid={e => e.target.setCustomValidity('Hey! Your group name please!')}
+                onInput={e => e.target.setCustomValidity('')}
+            />
+          </div>
+
+          <button type="submit" disabled={loading} className="w-full py-4 bg-[#E4D5B7] hover:bg-[#d0c1a0] text-[#06392f] font-bold rounded-xl shadow-lg disabled:opacity-50 transition-transform active:scale-95">
+            {loading ? 'Joining...' : 'Start Journey'}
+          </button>
         </form>
       </div>
     </div>
